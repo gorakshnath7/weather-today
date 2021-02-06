@@ -1,6 +1,10 @@
 body{
     font-size: 14pt;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
+    background-color: rgb(222, 226, 245);
+}
+* {
+    box-sizing: border-box;
 }
 
 header {
@@ -13,23 +17,16 @@ header {
 
 #searchIntro {
     padding: 10px;
-    font-size: 12pt;
     font-weight: bold;
 }
 
-
 form.example input[type=text]{
     padding: 10px;
-    font-size: 14px;
     border: 1px solid grey;
     float: left;
     width: 80%;
     background: white;
     margin: 0;
-}
-
-* {
-    box-sizing: border-box;
 }
 
 form.example button {
@@ -58,65 +55,67 @@ form.example::after {
 li.list-group-item {
     border: 1px solid gray;
     height: 40px;
-    font-size: 14pt;
 }
 
-#results {
-    border: lightgray;
-    padding: 5px;
-    border-style:solid;
+#row-title {
+    height: 60px;
 }
 
-.card-body {
-    padding: 10px;
-    text-align: left;
-    padding-bottom: 20px;
+#titleIcon {
+    float: right;
+    height: 10px;
 }
 
-h3{
-    margin-bottom: 20px;
-    margin-top: 20px;
-    padding:10px;
+h3 {
     font-weight: bold;
+    margin-top: 20px;
 }
+.card {
+    border: none;
 
-p{
-    padding: 10px;
-    margin-bottom: 5 px;
 }
-
-h5{
-    padding: 10px;
-    text-align: left;
-}
-
 #weatherData {
     border: none;
     width: 100%;
     margin: 5px;
-    margin-top: 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     padding: 10px;
+    color: black;
+    background-color: white;
+}
+
+#fivedayForecast {
+    border: none;
+    width: 100%;
+    margin-top: 0px; 
     color: black
 }
 
+h5 {
+    padding: 10px;
+    text-align: left;
+    font-size: 12pt;
+}
+
+#fTitle {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
 .forecastbox {
     background:rgb(53, 80, 235);
     color: white;
-    font-size: 10px;
+    font-size: 10pt;
     text-align:left;
     border-radius: 5px;
 }
 
-.card-text2{
-    font-size:10pt;
-    color: white;  
+.card-body {
+    padding: 10px;
 }
 
-#fivedayForecast{
-    border: none;
-    margin-top: 0px; 
-    color: black
-}
+
 
 
 
