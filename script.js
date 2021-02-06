@@ -1,102 +1,109 @@
-var currentDay = moment().format('MMMM Do YYYY');
 
-
-
+var day = moment().format('MMMM Do YYYY');
+//var to start search
+var city 
+//variables for fetch results
 var data
-var cityName
+var uvi
+//main weather variables
 var temp
 var humidity
 var windspeed
-var uvi
 var uvindex
-var forecast5
-var weatherData
 var lon
 var lat
+//variables for five-day forecast
 var icon
 var fdate
 var ftemp
 var ficon
 var fhumid
+//var to create array of all data
+var cityAll
 
-
-var city 
-//search for city
+//search for weather by city
 async function doSearch(event){
     event.preventDefault()
     city = document.querySelector("#city-search").value
     console.log( `search(${city})`)
   
-   
-    //search openWeather for info
+    //run fetch to openWeather for weather info
     data = await fetch ( "http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=7cc8c49decf9f1dad6cc72eebd7c1304&units=metric").then( r=>r.json())
-        console.log (`..weatherData: `, data)
+        console.log (`searching data for ${city}`, data)
     //save data as variables
     title = data.main.name
     temp = data.main.temp
     humidity = data.main. humidity
     windspeed = data.wind.speed * 3.6
+    wsFIXED = windspeed.toFixed(2)
     lat = data.coord.lat
     lon = data.coord.lon
-    /*
-    var saveSearch = { 
-        city =`${city}`,
-        temp = `${temp}`,
-        humidity = `${humidity}`,
-        windspeed = `${windspeed}`,
-        lat = `${lat}`,
-        lon = `${lon}`
-    }*/
-        
+    
+    //add city to previously searched cities
     document.querySelector("#past-search").innerHTML += `
-        <li class="list-group-item" id="city[i]">${city}</li>`
-
+    <li class="list-group-item" id="city[i]">${city}</li>`
+    //call search for additional data to complete forecast
     searchUV()
-    async function searchUV(){
-    
+}
+//search for UV info and five-day forecast    
+async function searchUV(){
+    //run fetch for UV and forecast
     uvi = await fetch ( "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&appid=7cc8c49decf9f1dad6cc72eebd7c1304").then( r=>r.json() )
-    console.log( `..UVI`, uvi)
+    console.log( `searching uvi for ${city}`, uvi)
     
-    icon = uvi.current.weather[0].main
-    if(icon = "Clouds"){`<i class="fas fa-cloud"></i>`}
-    else if( icon = "Rain"){`<i class="fas fa-cloud-rain"></i>`}
-    else if(icon = "Sun"){`<i class="fas fa-sun"></i>`}
-    else{''}
-
-
-
     uvindex = uvi.current.uvi
+    icon = uvi.current.weather[0].main
+    for( var i=0; i<4; i++) {
+    ftemp = uvi.daily[i].temp.day - 273
+    ftempFIXED = ftemp.toFixed(2);
+    fhumid = uvi.daily[i].humidity
+    }
+   publishResults(city) 
+
     
-    document.querySelector("#weatherInfo").innerHTML = `
-    <div class="card" id="weatherData">
-        <div class="card-body">
-            <h3 class="card-title">${city}  (${currentDay}) ${icon}</h3>
-            <p class="card-text" id="temp">Temperature: ${temp} C</p>
-            <p class="card-text" id="humid">Humidity: ${humidity} %</p>
-            <p class="card-text" id="speed">Wind Speed: ${windspeed} km/hr</p>
-            <p class="card-text" id="uv">UV Index: ${uvindex} </p>
-        </div>
-    </div>`
-    if(`${uvindex}`> 0) {document.querySelector("#uv").style.color = "red"}
+
+}
+
+//publish results in HTML page
+function publishResults(city){
+    //post weather information in card  
+    document.querySelector("#title").innerHTML = `${city} (${day})`
+    document.querySelector("#temp").innerHTML = `Temperature: ${temp} C `
+    document.querySelector("#humid").innerHTML = `Humidity: ${humidity} %`
+    document.querySelector("#speed").innerHTML = `Wind Speed: ${wsFIXED} km/hr`
+    document.querySelector("#uv").innerHTML = `UV Index: ${uvindex}` 
+
+    if(`${uvindex}` > 3 ) {document.querySelector("#uv").style.color = "red"}
+    if(`${windspeed}` > 70 ) {document.querySelector("#speed").style.color = "red"}
+
+    for (var i=0; i < 5; i++) {
+    document.querySelector(`#datef${i}`).innerHTML = moment().add(1,'d').format('MMMM Do YYYY');
+        if(icon = "Rain"){ 
+            console.log("Rain");
+            document.querySelector(`#icon${i}`).classList.replace("fa-sun", "fa-rain")
+        } else if (icon = "Clouds"){ 
+            console.log("Clouds")
+            document.querySelector(`#icon${i}`).classList.replace("fa-sun", "fa-clouds")
+        }
+    document.querySelector(`#ftemp${i}`).innerHTML  = `${ftempFIXED} C`
+    document.querySelector(`#fhumid${i}`).innerHTML  = `${fhumid} %`
+    // storeCity(city)
+    }
+}
+/*
+function storeCity(city){
+    localStorage.setItem(city,JSON.stringify(saveSearch))
+    var city1 = JSON.parse(localStorage.getItem(city))
+    }
+    //make an array of all weather data
+    cityAll = [ city, temp, humidity, windspeed, uvindex ]
+*/
+    
         
-    fdate = uvi.daily[i].date,
-    ficon = uvi.daily[i].weather[0].main,
-    ftemp = uvi.daily[i].temp.day - 273.15,
-    fhumid= uvi.daily[i].humidity 
-    // for( i=0, i<5, i++){}       
-    }    
     
+        
     
-
-     
-    
-    // localStorage.saveSearch 
-
-    document.querySelector("#city-search").value = ''
 
 
     
-    // uvindex = 
-    // forecast5 = 
-    
-}        
+    document.querySelector("#city-search").value = ""
