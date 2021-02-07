@@ -3,9 +3,9 @@ body{
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     background-color: rgb(222, 226, 245);
 }
-* {
+/* * {
     box-sizing: border-box;
-}
+} */
 
 header {
     background: navy;
@@ -53,17 +53,44 @@ form.example::after {
 }
 
 li.list-group-item {
+    border: none;
+}
+
+#prevCity {
+    border: 1px solid gray;
+    background: white;
+    font-size: 12pt;
+    padding: 5px;
+    margin-bottom: 0px;
+
+}
+#previous {
     border: 1px solid gray;
     height: 40px;
 }
 
-#row-title {
-    height: 60px;
+
+#cityName {
+    font-weight: bold;
+    font-size: 20pt;
+    margin-top: 20px;
+    margin-bottom: none; 
+    border: none;  
+    vertical-align: bottom; 
 }
 
+#date {
+    font-size: 18pt;
+    margin-top: 20px;
+    margin-bottom: none;
+    vertical-align: bottom; 
+}
 #titleIcon {
-    float: right;
-    height: 10px;
+    border: none;
+    height: 40px;
+    margin-top: 20px;
+    margin-bottom: none;
+    vertical-align: bottom; 
 }
 
 h3 {

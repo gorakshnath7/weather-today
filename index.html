@@ -34,8 +34,8 @@
                 <div class="container">
                     <div id="past-search">
                         <div class="card">
+                            <div class="card-title" id="prevCity">Previous Searches</div>
                             <ul id="past-search" class="list-group list-group-flush">
-                                <li class="list-group-item" >Previous searches</li>
                                 <!--Previous searches go here-->
                             </ul>
                         </div>
@@ -45,20 +45,17 @@
             <div class="col-9">
                 <div class="row">
                     <div class = "container" id="weatherData">
-                        <div class="card">
-                            <div class="row-title">
-                                <div class="card-title">
-                                    <div class="container">
-                                        <div class="col-9">
-                                            <h3 id="title"></h3>
-                                        </div>
-                                        <div class="col-3"> 
-                                            <img id="titleIcon" src="">
-                                        </div>
-                                    </div>
+                        <div class="card">                          
+                            <div class="card-title">
+                                <div class="row">
+                                    <ul class="list-group list-group-horizontal" id="titlebar">
+                                        <li class="list-group-item" id="cityName"></li>
+                                        <li class="list-group-item" id="date"></li>
+                                        <li class="list-group-item"><img id="titleIcon"src=""></li>
+                                    </ul>
                                 </div>
-                            </div> 
-                            <hr>
+                            </div>
+                        <hr>
                             <div class="card-body">
                                 <p class="card-text" id="temp">Temperature: </p>
                                 <p class="card-text" id="humid">Humidity: </p>

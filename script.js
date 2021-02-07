@@ -19,14 +19,15 @@ var ftemp
 var ficon
 var fhumid
 //var to create array of all data
-var cityAll
+var previous
 
 //search for weather by city
+
 async function doSearch(event){
     event.preventDefault()
-    city = document.querySelector("#city-search").value
-    console.log( `search(${city})`)
-  
+    city = document.querySelector("#city-search").value  
+    console.log( `search ${city} `)
+    
     //run fetch to openWeather for weather info
     data = await fetch ( "http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=7cc8c49decf9f1dad6cc72eebd7c1304&units=metric").then( r=>r.json())
         console.log (`searching data for ${city}`, data)
@@ -40,9 +41,6 @@ async function doSearch(event){
     lat = data.coord.lat
     lon = data.coord.lon
     
-    //add city to previously searched cities
-    document.querySelector("#past-search").innerHTML += `
-    <li class="list-group-item" id="city[i]">${city}</li>`
     //call search for additional data to complete forecast
     searchUV()
 }
@@ -64,7 +62,8 @@ async function searchUV(){
 //publish results in HTML page
 function publishResults(city){
     //post weather information in card  
-    document.querySelector("#title").innerHTML = `${city} (${day})`
+    document.querySelector("#cityName").innerHTML = `${city}`
+    document.querySelector("#date").innerHTML = `(${day})` 
     document.getElementById('titleIcon').src = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`
     document.querySelector("#temp").innerHTML = `Temperature: ${temp} C `
     document.querySelector("#humid").innerHTML = `Humidity: ${humidity} %`
@@ -99,21 +98,42 @@ function publishResults(city){
     document.querySelector(`#fhumid4`).innerHTML  = `Humidity: ${uvi.daily[3].humidity} %`
     document.querySelector(`#fhumid5`).innerHTML  = `Humidity: ${uvi.daily[4].humidity} %`
 
+    storePrevious(city)
+
 }
-/*
-function storeCity(city){
-    localStorage.setItem(city,JSON.stringify(saveSearch))
-    var city1 = JSON.parse(localStorage.getItem(city))
-    }
-    //make an array of all weather data
-    cityAll = [ city, temp, humidity, windspeed, uvindex ]
-*/
-    
-        
-    
-        
-    
-
-
-    
+ 
+function storePrevious() {
+    //add most recently searched city to previously searched cities
+    document.querySelector("#past-search").innerHTML += `
+    <li class="list-group-item" onclick="doSearch(${city})" id="previous">${city}</li>`
+    console.log(`store ${city}`)
+    //add the city to local storage
+    localStorage.setItem(`${city}`,JSON.stringify(city))
+    //clear search bar and note in console log
+    console.log("clearing search area")
     document.querySelector("#city-search").value = ""
+  
+}
+
+// function storeCity(city){
+//     console.log(`storing ${city}`)
+    // store city in local storage
+    
+    // JSON.parse(localStorage.getItem(city)) = document.querySelector("#city").innerHTML
+
+
+    // }
+   
+
+
+
+//  function searchStored(){
+//      document.getElementById('city').addEventListener("click", doSearch(city))
+//  }       
+    
+        
+    
+
+
+    
+   
