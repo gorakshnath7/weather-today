@@ -69,6 +69,15 @@ li.list-group-item {
     height: 40px;
 }
 
+#pvsBtn {
+    border: 1px solid gray;
+    background: white;
+    font-size: 12pt;
+    padding: 5px;
+    margin-bottom: 0px;
+
+}
+
 
 #cityName {
     font-weight: bold;

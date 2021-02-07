@@ -20,9 +20,21 @@ var ficon
 var fhumid
 //var to create array of all data
 var previous
+var previouslgth
+
+
+function LS() {
+    if (localStorage.getItem('previous') === null) {
+      console.log("Nothing in Local Storage")
+      previous = []
+    } else {
+      previous = JSON.parse(localStorage.getItem('previous'))
+    }
+    
+    displayPrevious()
+  }
 
 //search for weather by city
-
 async function doSearch(event){
     event.preventDefault()
     city = document.querySelector("#city-search").value  
@@ -102,34 +114,58 @@ function publishResults(city){
 
 }
  
-function storePrevious() {
+function storePrevious(city) {
     //add most recently searched city to previously searched cities
-    document.querySelector("#past-search").innerHTML += `
-    <li class="list-group-item" onclick="doSearch(${city})" id="previous">${city}</li>`
     console.log(`store ${city}`)
-    //add the city to local storage
-    localStorage.setItem(`${city}`,JSON.stringify(city))
+    // create array of previous searches
+    
+    // if previous already exists, open the array
+    if (localStorage.getItem('previous') === null) {
+        previous = []
+    } else {
+        previous  = JSON.parse(localStorage.getItem('previous'));
+    } 
+    // add city to array
+    addCity = {
+        search: `${city}`
+    }
+    previous.push(addCity)
+    // set length of for loop
+    previouslgth = previous.length
+    //avoid duplicates on list
+    // for ( i=0; i< previous.length; i++)
+    // if( previous[i].search === `${city}`){ 
+    //     localStorage.removeItem('previous',  [i])  
+    // } else {
+    //     previous.push(addCity)   
+    // }
+    //add the updated array to local storage
+    localStorage.setItem( 'previous', JSON.stringify(previous) );
+    
     //clear search bar and note in console log
     console.log("clearing search area")
     document.querySelector("#city-search").value = ""
-  
+    displayPrevious()
 }
-
-// function storeCity(city){
-//     console.log(`storing ${city}`)
-    // store city in local storage
+function displayPrevious(){
+    //get array from local storage
+    previous = JSON.parse(localStorage.getItem('previous'))
+    //create for loop
     
-    // JSON.parse(localStorage.getItem(city)) = document.querySelector("#city").innerHTML
+    for ( i=0; i < 8; i++){
+    //name previous searches
+    var old = previous[i].search
+    //populate HTML with data
+    document.querySelector("#past-search").innerHTML += `<li class="list-group-item" id="previous"><button type="button" class="btn" id="pvsBtn" onclick="pvsSearch(${old})" >${old}</li>`
+    }
 
+}
+function pvsSearch(old) {
+    console.log("previous search activated")
+    doSearch(old)
 
-    // }
-   
-
-
-
-//  function searchStored(){
-//      document.getElementById('city').addEventListener("click", doSearch(city))
-//  }       
+}
+    
     
         
     
