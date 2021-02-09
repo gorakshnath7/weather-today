@@ -75,12 +75,13 @@ function publishResults(city){
     document.querySelector("#cityName").innerHTML = `${city}`
     document.querySelector("#date").innerHTML = `(${day})` 
     document.getElementById('titleIcon').src = `https://openweathermap.org/img/w/${data.weather[0].icon}.png`
-    document.querySelector("#temp").innerHTML = `Temperature: ${temp} C `
-    document.querySelector("#humid").innerHTML = `Humidity: ${humidity} %`
-    document.querySelector("#speed").innerHTML = `Wind Speed: ${wsFIXED} km/hr`
+    document.querySelector("#temp").innerHTML = `${temp} C `
+    document.querySelector("#humid").innerHTML = `${humidity} %`
+    document.querySelector("#speed").innerHTML = `${wsFIXED} km/hr`
     document.querySelector("#uvdata").innerHTML = `${uvindex}` 
 
-    if(`${uvindex}` > 3 ) {document.querySelector("#uvdata").style.color = "red"}
+    if(`${uvindex}` > 3 ) {document.querySelector("#uvdata").style.backgroundColor = "red"}
+    if(`${uvindex}` > 3 ) {document.querySelector("#uvdata").style.color = "white"}
     if(`${windspeed}` > 70 ) {document.querySelector("#speed").style.color = "red"}
 
     //Forecast date
