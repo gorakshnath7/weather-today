@@ -20,44 +20,42 @@ var ficon
 var fhumid
 //var to create array of all data
 var previous
-var previouslgth
+var retrievedData
+var old
 
 
-function LS() {
-    if (localStorage.getItem('previous') === null) {
-      console.log("Nothing in Local Storage")
-      previous = []
-    } else {
-      previous = JSON.parse(localStorage.getItem('previous'))
-    }
-    
-    displayPrevious()
-  }
+//start search function with click of search bar
+  document.querySelector('#schBtn').addEventListener('click',function (event) {
+      event.preventDefault();
+      city = document.querySelector("#city-search").value
+      //clear search bar
+      document.querySelector("#city-search").value = ""
 
+      doSearch(city);
+  })
+   
 //search for weather by city
-async function doSearch(event){
-    event.preventDefault()
-    city = document.querySelector("#city-search").value  
+async function doSearch(city){
     console.log( `search ${city} `)
     
     //run fetch to openWeather for weather info
-    data = await fetch ( "http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=7cc8c49decf9f1dad6cc72eebd7c1304&units=metric").then( r=>r.json())
+    data = await fetch ( "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=7cc8c49decf9f1dad6cc72eebd7c1304&units=metric").then( r=>r.json())
         console.log (`searching data for ${city}`, data)
     //save data as variables
-    title = data.main.name
+    title = data.name
     icon = data.weather[0].icon
     temp = data.main.temp
-    humidity = data.main. humidity
+    humidity = data.main.humidity
     windspeed = data.wind.speed * 3.6
     wsFIXED = windspeed.toFixed(1)
     lat = data.coord.lat
     lon = data.coord.lon
     
-    //call search for additional data to complete forecast
-    searchUV()
+    //Use city Lat and Lon to call search for additional UV data to complete forecast
+    searchUV(city)
 }
 //search for UV info and five-day forecast    
-async function searchUV(){
+async function searchUV(city){
     //run fetch for UV and forecast
     uvi = await fetch ( "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&appid=7cc8c49decf9f1dad6cc72eebd7c1304").then( r=>r.json() )
     console.log( `searching uvi for ${city}`, uvi)
@@ -76,13 +74,13 @@ function publishResults(city){
     //post weather information in card  
     document.querySelector("#cityName").innerHTML = `${city}`
     document.querySelector("#date").innerHTML = `(${day})` 
-    document.getElementById('titleIcon').src = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`
+    document.getElementById('titleIcon').src = `https://openweathermap.org/img/w/${data.weather[0].icon}.png`
     document.querySelector("#temp").innerHTML = `Temperature: ${temp} C `
     document.querySelector("#humid").innerHTML = `Humidity: ${humidity} %`
     document.querySelector("#speed").innerHTML = `Wind Speed: ${wsFIXED} km/hr`
-    document.querySelector("#uv").innerHTML = `UV Index: ${uvindex}` 
+    document.querySelector("#uvdata").innerHTML = `${uvindex}` 
 
-    if(`${uvindex}` > 3 ) {document.querySelector("#uv").style.color = "red"}
+    if(`${uvindex}` > 3 ) {document.querySelector("#uvdata").style.color = "red"}
     if(`${windspeed}` > 70 ) {document.querySelector("#speed").style.color = "red"}
 
     //Forecast date
@@ -117,52 +115,31 @@ function publishResults(city){
 function storePrevious(city) {
     //add most recently searched city to previously searched cities
     console.log(`store ${city}`)
-    // create array of previous searches
-    
-    // if previous already exists, open the array
-    if (localStorage.getItem('previous') === null) {
-        previous = []
-    } else {
-        previous  = JSON.parse(localStorage.getItem('previous'));
-    } 
-    // add city to array
-    addCity = {
-        search: `${city}`
-    }
-    previous.push(addCity)
-    // set length of for loop
-    previouslgth = previous.length
-    //avoid duplicates on list
-    // for ( i=0; i< previous.length; i++)
-    // if( previous[i].search === `${city}`){ 
-    //     localStorage.removeItem('previous',  [i])  
-    // } else {
-    //     previous.push(addCity)   
-    // }
-    //add the updated array to local storage
-    localStorage.setItem( 'previous', JSON.stringify(previous) );
-    
-    //clear search bar and note in console log
-    console.log("clearing search area")
-    document.querySelector("#city-search").value = ""
-    displayPrevious()
-}
-function displayPrevious(){
-    //get array from local storage
-    previous = JSON.parse(localStorage.getItem('previous'))
-    //create for loop
-    
-    for ( i=0; i < 8; i++){
-    //name previous searches
-    var old = previous[i].search
-    //populate HTML with data
-    document.querySelector("#past-search").innerHTML += `<li class="list-group-item" id="previous"><button type="button" class="btn" id="pvsBtn" onclick="pvsSearch(${old})" >${old}</li>`
-    }
+    //add city to local storage
 
+    let previous = JSON.parse(localStorage.getItem("previous")) || [];
+    if (previous.indexOf(city) === -1) {
+        previous.push(city);
+        
+        localStorage.setItem("previous" , JSON.stringify(previous) )
+
+        makeRow(city)
+    }    
 }
-function pvsSearch(old) {
+
+
+function makeRow(city) { 
+    
+    let li = `<li class="list-group-item" id="previous"><button type="button" class="btn" id="pvsBtn" onclick="pvsSearch(this)" >${city}</li>` ; 
+    document.querySelector("#addCity").innerHTML += li;
+    console.log(`adding ${city} to previous`)
+    // pvsSearch()     
+}
+
+function pvsSearch(el) {
     console.log("previous search activated")
-    doSearch(old)
+    console.log(el.textContent)
+    doSearch(el.textContent)
 
 }
     

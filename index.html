@@ -27,7 +27,7 @@
                         <label id="searchIntro" for="search-city" class="form-label">Search for a City:</label>
                         <form class="example">
                             <input id="city-search" type="text" class="form-control" placeholder="Search..">
-                            <button onclick="doSearch(event)" id="schBtn"><i class="fas fa-search"></i></button>
+                            <button id="schBtn"><i class="fas fa-search"></i></button>
                         </form>
                     </div>
                 </div>    
@@ -37,7 +37,7 @@
                             <div class="card-header" id="prevCity">
                               Previous Searches
                             </div>
-                            <ul class="list-group list-group-flush">
+                            <ul class="list-group list-group-flush" id="addCity">
                               <!-- Previous Searches go HERE-->
                             </ul>
                         </div>
@@ -62,7 +62,7 @@
                                 <p class="card-text" id="temp">Temperature: </p>
                                 <p class="card-text" id="humid">Humidity: </p>
                                 <p class="card-text" id="speed">Wind Speed: </p>
-                                <p class="card-text" id="uv">UV Index: </p>
+                                <p class="card-text" id="uv">UV Index:<span id="uvdata"></span> </p>
                             </div>
                         </div>  
                     </div>
