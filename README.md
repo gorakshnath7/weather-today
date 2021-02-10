@@ -20,4 +20,4 @@ The following image shows the web application's appearance and functionality:
 
 ![The weather app includes a search option, a list of cities, and a five-day forecast and current weather conditions for Montevideo.](https://github.com/catherinebshaw/Weather-Dashboard/blob/master/Assets/Screen%20Shot%202021-02-09%20at%209.56.24%20AM.png)
 
-[Weather-Dashboard] (https://catherinebshaw.github.io/Weather-Dashboard/)
+[Weather-Dashboard](https://catherinebshaw.github.io/Weather-Dashboard/)
