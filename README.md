@@ -8,11 +8,11 @@ The Weather Dashboard allows users to search any city in the world to find:
 * icons displaying current and forecasted weather conditions,
 * warnings for any uv index rating greater than 3 or wind speeds in excess of 70 km/hr
 
-Cities that are previously searched are listed as a "Previous Search" and can information on those cities can be refreshed by clicking on that city name. 
+Cities that are previously searched are listed as a "Previous Search" and users can readily update information on those cities can be refreshed by clicking on that city name. 
 
 ## Technology Used
 
-This application searches and retrieves data from openweathermap.org through an API. 
+This application uses HTML, JavaScript and CSS to render an application with a weather search function. The search retrieves and presents data from openweathermap.org through an API. Cities that have been searched are stored in local storage for future reference. 
 
 ## Mock-Up
 
